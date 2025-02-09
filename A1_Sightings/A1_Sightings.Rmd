@@ -131,25 +131,33 @@ table(raw_df$Borough)
 ```
 
 ```{r}
-library(lubridate)
+# 加载必要的包
 library(ggplot2)
+library(dplyr)
+library(readr)
+library(lubridate)
 
-# 统计各 Borough 每年每月的事件数量
+# 确保 "Created Date" 转换为日期格式
 temp_df <- ini_df %>%
   mutate(Year = year(`Created Date`), Month = month(`Created Date`))
 
-# 统一 Borough 的格式，去除空格，并转换为大写（与颜色映射一致）
+# 确保 Month 是两位数（01, 02, ..., 12）
+temp_df <- temp_df %>%
+  mutate(Month = sprintf("%02d", Month))  # 确保月份是两位数
+
+# 统计各 Borough 每年每月的事件数量
+borough_trends <- temp_df %>%
+  group_by(Borough, Year, Month) %>%
+  summarise(Count = n(), .groups = "drop") %>%
+  mutate(YearMonth = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))  # 解决日期格式问题
+
 borough_trends <- borough_trends %>%
   mutate(Borough = trimws(toupper(Borough)))  
-
-
-# 打开一个新窗口并设置宽度和高度
-dev.new(width = 20, height = 8)
 
 # 重新绘制图表
 ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Borough)) +
   geom_line(size = 1.2) +  
-  geom_point(size = 1) +   
+  geom_point(size = 2) +   
   theme_minimal(base_size = 14) +  
   theme(
     plot.background = element_rect(fill = "white"),  
@@ -168,9 +176,8 @@ ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Bo
                                 "BROOKLYN" = "#a29bb3",
                                 "MANHATTAN" = "#d49391", 
                                 "QUEENS" = "#e5d5b2",
-                                "STATEN ISLAND" = "#98c4c1")
-                     ) +  
-  scale_x_date(date_labels = "%Y-%m", date_breaks = "4 months") +  
+                                "STATEN ISLAND" = "#98c4c1")) +  
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "3 months") +  
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  
   axis.text.y = element_text(size = 10)
 

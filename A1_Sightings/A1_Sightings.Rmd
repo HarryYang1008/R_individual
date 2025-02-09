@@ -1,0 +1,179 @@
+---
+title: "A1: Sightings"
+author: "Weikang Yang"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+raw_df <- read_csv("data/A1_sightings.csv")
+colnames(raw_df)
+```
+
+
+```{r}
+library(dplyr)
+
+ini_df <- raw_df %>%
+  select(-c(
+    "Resolution Action Updated Date","Status","Due Date","Closed Date","Agency", "Agency Name", "Complaint Type", "Descriptor", "Landmark",
+    "Facility Type", "Park Facility Name", "Park Borough",
+    "School Name", "School Number", "School Region", "School Code",
+    "School Phone Number", "School Address", "School City",
+    "School State", "School Zip", "School Not Found",
+    "School or Citywide Complaint", "Vehicle Type",
+    "Taxi Company Borough", "Taxi Pick Up Location",
+    "Bridge Highway Name", "Bridge Highway Direction",
+    "Road Ramp", "Bridge Highway Segment", "Garage Lot Name",
+    "Ferry Direction", "Ferry Terminal Name",
+    "Intersection Street 1","Intersection Street 2"
+  ))
+
+
+colnames(ini_df)
+```
+```{r}
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(readr)
+library(stringr)
+ini_df <- ini_df %>%
+  mutate(
+    `Incident Address` = replace_na(`Incident Address`, "Unknown"),
+    `Street Name` = replace_na(`Street Name`, "Unknown"),
+    `Cross Street 1` = replace_na(`Cross Street 1`, "Unknown"),
+    `Cross Street 2` = replace_na(`Cross Street 2`, "Unknown"),
+    # `Latitude` = replace_na(`Latitude`, 0),
+    # `Longitude` = replace_na(`Longitude`, 0),
+    # `X Coordinate (State Plane)` = replace_na(`X Coordinate (State Plane)`, 0),
+    # `Y Coordinate (State Plane)` = replace_na(`Y Coordinate (State Plane)`, 0)
+  )
+
+# 2. 转换日期格式 -----
+ini_df <- ini_df %>%
+  mutate(
+    `Created Date` = mdy_hms(`Created Date`),
+    
+  )
+
+# 3. 清理地址字段 -----
+ini_df <- ini_df %>%
+  mutate(
+    `Incident Zip` = as.character(`Incident Zip`),  # 防止丢失前导0
+    `City` = str_to_title(trimws(`City`)),  # 清除空格 & 标准化大小写
+    `Borough` = str_to_title(trimws(`Borough`))
+  )
+
+# 4. 处理坐标数据 -----
+ini_df <- ini_df %>%
+  mutate(
+    `Latitude` = as.numeric(`Latitude`),
+    `Longitude` = as.numeric(`Longitude`)
+  )
+
+# 5. 去重 -----
+ini_df <- ini_df %>% distinct()
+
+write_csv(ini_df[1:100, ], "ini_df.csv")
+
+# 查看清理后的数据
+glimpse(ini_df)
+
+
+```
+
+
+
+```{r}
+library(leaflet)
+library(readr)
+library(sf)  # 处理地理数据
+# 读取纽约市5个 Borough 的边界数据 (GeoJSON)
+boroughs <- st_read("data/borough.geojson")
+
+ini_df_2015 <- ini_df %>%
+  filter(year(`Created Date`) == 2015)
+
+# 创建 leaflet 地图
+leaflet(data = ini_df_2015) %>%
+  setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
+  addTiles() %>%
+
+  # 添加 Borough 的半透明多边形
+  addPolygons(
+    data = boroughs,
+    fillColor = "gray",
+    fillOpacity = 0.3,  # 设置透明度
+    color = "black",
+    weight = 2,
+    popup = ~boro_name  # 显示 Borough 名称
+  ) %>%
+
+  # 添加数据点，并使用 Cluster 进行优化
+  addCircleMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = 3,
+    color = "blue",
+    fillOpacity = 0.5,
+    clusterOptions = markerClusterOptions()
+  )
+
+
+```
+
+
+
+```{r}
+table(raw_df$Borough)
+
+```
+
+```{r}
+library(lubridate)
+library(ggplot2)
+
+# 统计各 Borough 每年每月的事件数量
+temp_df <- ini_df %>%
+  mutate(Year = year(`Created Date`), Month = month(`Created Date`))
+
+# 统一 Borough 的格式，去除空格，并转换为大写（与颜色映射一致）
+borough_trends <- borough_trends %>%
+  mutate(Borough = trimws(toupper(Borough)))  
+
+
+# 打开一个新窗口并设置宽度和高度
+dev.new(width = 20, height = 8)
+
+# 重新绘制图表
+ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Borough)) +
+  geom_line(size = 1.2) +  
+  geom_point(size = 1) +   
+  theme_minimal(base_size = 14) +  
+  theme(
+    plot.background = element_rect(fill = "white"),  
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "gray80"),
+    panel.grid.minor = element_line(color = "gray90"),
+    legend.position = "top"
+  ) +
+  labs(
+    title = "Incident Trends by Borough Over Time",
+    x = "Time (Year-Month)",
+    y = "Number of Incidents",
+    color = "Borough"
+  ) +
+  scale_color_manual(values = c("BRONX" = "#a8b89a",
+                                "BROOKLYN" = "#a29bb3",
+                                "MANHATTAN" = "#d49391", 
+                                "QUEENS" = "#e5d5b2",
+                                "STATEN ISLAND" = "#98c4c1")
+                     ) +  
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "4 months") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+  axis.text.y = element_text(size = 10)
+
+```
+
+

@@ -85,41 +85,75 @@ glimpse(ini_df)
 
 
 
-```{r}
+```{r, width = 13}
 library(leaflet)
 library(readr)
-library(sf)  # 处理地理数据
-# 读取纽约市5个 Borough 的边界数据 (GeoJSON)
+library(sf) 
+
 boroughs <- st_read("data/borough.geojson")
 
-ini_df_2015 <- ini_df %>%
-  filter(year(`Created Date`) == 2015)
+ini_df_month <- ini_df %>%
+  mutate(Created_Date = as.Date(`Created Date`)) %>%
+  filter(year(Created_Date) == 2017 & month(Created_Date) == 1)
 
-# 创建 leaflet 地图
-leaflet(data = ini_df_2015) %>%
+leaflet(data = ini_df_month) %>%
   setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
   addTiles() %>%
 
-  # 添加 Borough 的半透明多边形
   addPolygons(
     data = boroughs,
     fillColor = "gray",
-    fillOpacity = 0.3,  # 设置透明度
+    fillOpacity = 0.3,  
     color = "black",
     weight = 2,
-    popup = ~boro_name  # 显示 Borough 名称
+    popup = ~boro_name  
   ) %>%
 
-  # 添加数据点，并使用 Cluster 进行优化
+  
   addCircleMarkers(
     lng = ~Longitude,
     lat = ~Latitude,
     radius = 3,
-    color = "blue",
+    color = "red",
     fillOpacity = 0.5,
     clusterOptions = markerClusterOptions()
   )
 
+
+```
+```{r}
+library(leaflet)
+library(readr)
+library(sf) 
+
+boroughs <- st_read("data/borough.geojson")
+
+ini_df_month <- ini_df %>%
+  mutate(Created_Date = as.Date(`Created Date`)) %>%
+  filter(year(Created_Date) == 2017 & month(Created_Date) == 7)
+
+leaflet(data = ini_df_month) %>%
+  setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
+  addTiles() %>%
+
+  addPolygons(
+    data = boroughs,
+    fillColor = "gray",
+    fillOpacity = 0.3,  
+    color = "black",
+    weight = 2,
+    popup = ~boro_name  
+  ) %>%
+
+  
+  addCircleMarkers(
+    lng = ~Longitude,
+    lat = ~Latitude,
+    radius = 3,
+    color = "red",
+    fillOpacity = 0.5,
+    clusterOptions = markerClusterOptions()
+  )
 
 ```
 
@@ -131,43 +165,43 @@ table(raw_df$Borough)
 ```
 
 ```{r fig.align="center", echo = FALSE,fig.width = 13}
-# 加载必要的包
 library(ggplot2)
 library(dplyr)
 library(readr)
 library(lubridate)
 
-# 确保 "Created Date" 转换为日期格式
+
 temp_df <- ini_df %>%
   mutate(Year = year(`Created Date`), Month = month(`Created Date`))
 
-# 确保 Month 是两位数（01, 02, ..., 12）
-temp_df <- temp_df %>%
-  mutate(Month = sprintf("%02d", Month))  # 确保月份是两位数
 
-# 统计各 Borough 每年每月的事件数量
+temp_df <- temp_df %>%
+  mutate(Month = sprintf("%02d", Month))  
+
+
 borough_trends <- temp_df %>%
   group_by(Borough, Year, Month) %>%
   summarise(Count = n(), .groups = "drop") %>%
-  mutate(YearMonth = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))  # 解决日期格式问题
+  mutate(YearMonth = as.Date(paste(Year, Month, "01", sep = "-"), format = "%Y-%m-%d"))  
 
 borough_trends <- borough_trends %>%
   mutate(Borough = trimws(toupper(Borough)))  
 
 dev.new(width = 50, height = 6)
-# 重新绘制图表
+
 ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Borough)) +
   geom_line(size = 1.2) +  
   geom_point(size = 2) +  
   # coord_fixed(ratio = 0.5)+
   theme_minimal(base_size = 14) +  
   theme(
+     plot.title = element_text(face = "bold", size = 16),
     plot.background = element_rect(fill = "white"),  
     panel.background = element_rect(fill = "white"),
     panel.grid.major = element_line(color = "gray80"),
     panel.grid.minor = element_blank(),
     legend.position = "right",
-    plot.margin = margin(10, 10, 10, 10)  # 增加右侧的外边距
+    plot.margin = margin(10, 10, 10, 10)  
   ) +
   labs(
     title = "Incident Trends by Borough Over Time",
@@ -185,5 +219,120 @@ ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Bo
   axis.text.y = element_text(size = 10)
 
 ```
+
+```{r fig.align="center", echo = FALSE,fig.width = 7 }
+# 加载必要的库
+library(ggplot2)
+library(sf)
+library(lubridate)
+
+# 读取 GeoJSON 文件
+geojson_file <- "./data/borough.geojson"  # 这里替换为你的文件路径
+nyc_map <- st_read(geojson_file)
+
+# 读取数据集
+df <- ini_df
+
+# 确保 Created Date 是日期格式
+df$Created_Date <- as.Date(df$`Created Date`, format="%Y-%m-%d")
+
+# 过滤 2010 年的数据
+df_2010 <- df[year(df$`Created Date`) == 2010, ]
+
+# 检查数据是否为空
+print(nrow(df_2010))
+
+library(lubridate)
+
+# 确保 Created_Date 是日期格式
+df_2010$Created_Date <- as.Date(df_2010$`Created Date`, format="%Y-%m-%d")
+
+# 提取月份并强制转换
+df_2010$Month <- factor(month(df_2010$Created_Date), 
+                        levels = 1:12, 
+                        labels = c("January", "February", "March", "April", "May", "June", 
+                                   "July", "August", "September", "October", "November", "December"))
+# 检查 Month 是否正确
+print(table(df_2010$Month))
+
+# 移除缺失的经纬度数据
+df_2010 <- df_2010[!is.na(df_2010$Latitude) & !is.na(df_2010$Longitude), ]
+
+# 确保数据不为空
+if (nrow(df_2010) > 0) {
+  # 绘制 3x4 的 Facet Map
+  ggplot() +
+    geom_sf(data = nyc_map, fill = "lightgray", color = "black", size = 0.3) +  # 画出底图
+    geom_point(data = df_2010, aes(x = Longitude, y = Latitude), 
+               color = "red", alpha = 0.5, size = 1) +  # 叠加目击事件点
+    facet_wrap(~ Month, ncol = 4) +  # 创建 3x4 布局
+    labs(title = "Monthly Rat Sightings in New York (2010)",
+         x = "Longitude", 
+         y = "Latitude") +
+    theme_minimal()
+} else {
+  print("No data available for 2010")
+}
+ggsave("./test.svg", 
+       width = 10, height = 6, dpi = 300)
+
+```
+```{r}
+library(lubridate)
+
+# 确保 Created_Date 是日期格式
+df_2010$Created_Date <- as.Date(df_2010$`Created Date`, format="%Y-%m-%d")
+
+# 提取月份并强制转换
+df_2010$Month <- factor(month(df_2010$Created_Date), 
+                        levels = 1:12, 
+                        labels = c("January", "February", "March", "April", "May", "June", 
+                                   "July", "August", "September", "October", "November", "December"))
+
+# 检查 Month 是否正确
+print(table(df_2010$Month))
+
+
+```
+
+```{r}
+library(dplyr)
+
+# 创建 Brooklyn 的数据子集
+df_brooklyn <- temp_df %>% filter(Borough == "Brooklyn")
+
+# 检查数据
+print(nrow(df_brooklyn))  # 查看 Brooklyn 的数据量
+head(df_brooklyn)         # 显示前几行数据
+
+```
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+
+# 确保 Created Date 是日期格式
+df_brooklyn$Created_Date <- as.Date(df_brooklyn$`Created Date`, format="%Y-%m-%d")
+
+# 提取年份和月份
+df_brooklyn$YearMonth <- format(df_brooklyn$Created_Date, "%Y-%m")  # 转换为 YYYY-MM 格式
+
+# 统计每月的目击事件数量
+brooklyn_monthly <- df_brooklyn %>%
+  group_by(YearMonth) %>%
+  summarise(Sightings = n()) %>%
+  arrange(YearMonth)
+
+# 绘制折线图
+ggplot(brooklyn_monthly, aes(x = as.Date(paste0(YearMonth, "-01")), y = Sightings)) +
+  geom_line(color = "blue", size = 1) +  
+  geom_point(color = "red", size = 2) +  
+  labs(title = "Monthly Rat Sightings in Brooklyn",
+       x = "Date",
+       y = "Number of Sightings") +
+  theme_minimal()
+
+```
+
 
 

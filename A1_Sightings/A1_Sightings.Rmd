@@ -31,6 +31,8 @@ ini_df <- raw_df %>%
 
 
 colnames(ini_df)
+table(ini_df$`Location Type`)
+
 ```
 ```{r}
 library(dplyr)
@@ -54,7 +56,6 @@ ini_df <- ini_df %>%
 ini_df <- ini_df %>%
   mutate(
     `Created Date` = mdy_hms(`Created Date`),
-    
   )
 
 # 3. 清理地址字段 -----
@@ -80,8 +81,110 @@ write_csv(ini_df[1:100, ], "ini_df.csv")
 # 查看清理后的数据
 glimpse(ini_df)
 
+```
+
+```{r}
+# 加载必要的库
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+# 计算每种 Location Type 的数量
+location_counts <- ini_df %>%
+  count(`Location Type`, name = "Count") %>%
+  arrange(desc(Count))
+
+# 画柱状图
+ggplot(location_counts, aes(x = reorder(`Location Type`, -Count), y = Count)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +  # 让标签更容易阅读
+  labs(title = "Distribution of Incidents by Location Type",
+       x = "Location Type", y = "Count") +
+  theme_minimal()+
+  theme(
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text( size = 8,family = "mono"),
+    axis.title.y = element_text(size = 8,family = "mono"),
+    axis.text = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines"),
+   
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "gray80"),
+    panel.grid.minor = element_blank(),
+    legend.position = "right",
+    plot.margin = margin(10, 10, 10, 10),
+  )
+
+ggsave("output_vis/Distribution.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/Distribution.png", width = 15, height = 12, dpi = 600)
+```
+
+```{r}
+# 加载必要的库
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+
+# 转换日期格式
+ini_df <- ini_df %>%
+  mutate(`Created Date` = as.Date(`Created Date`))
+
+# 选择多个 Location Type
+selected_types <- c("3+ Family Apt. Building", 
+                    "1-2 Family Dwelling",
+                    "3+ Family Mixed Use Building")
+
+# 过滤数据
+filtered_df <- ini_df %>%
+  filter(`Location Type` %in% selected_types) %>%
+  mutate(Month = format(`Created Date`, "%Y-%m")) %>%
+  count(Month, `Location Type`)
+
+# 画折线图，用户可自定义颜色
+ggplot(filtered_df, aes(x = Month, y = n, color = `Location Type`, group = `Location Type`)) +
+  geom_line(size = 1) + 
+  geom_point(size = 2) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text( size = 8,family = "mono"),
+    axis.title.y = element_text(size = 8,family = "mono"),
+    axis.text = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines"),
+   
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "gray80"),
+    panel.grid.minor = element_blank(),
+    legend.position = "right",
+    plot.margin = margin(10, 10, 10, 10),
+  )+
+  scale_x_discrete(breaks = filtered_df$Month[seq(1, length(filtered_df$Month), by = 6)]) +  # 每2个月一个标记
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # x轴标签倾斜45度
+  
+  labs(title = "2014 - The Start of Increasing in Rat Sightings for 3+Family Apt.",
+       subtitlec="Rat Sightings analysis of residential buildings (2010-2017)",
+       x = "Month", y = "Count") +
+  scale_color_manual(values = c("#d49391", "#a8b89a", "#a29bb3"))  # 用户可修改颜色
+
+ggsave("output_vis/Residential_trends.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/Residential_trends.png", width = 15, height = 12, dpi = 600)
 
 ```
+
+
 
 
 
@@ -94,8 +197,8 @@ boroughs <- st_read("data/borough.geojson")
 
 ini_df_month <- ini_df %>%
   mutate(Created_Date = as.Date(`Created Date`)) %>%
-  filter(year(Created_Date) == 2017 & month(Created_Date) == 1)
-
+  filter(year(Created_Date) == 2017)
+# & month(Created_Date) == 7
 leaflet(data = ini_df_month) %>%
   setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
   addTiles() %>%
@@ -116,60 +219,81 @@ leaflet(data = ini_df_month) %>%
     radius = 3,
     color = "red",
     fillOpacity = 0.5,
-    clusterOptions = markerClusterOptions()
+   # clusterOptions = markerClusterOptions()
   )
 
 
 ```
+
+
 ```{r}
+# 加载必要的库
 library(leaflet)
-library(readr)
-library(sf) 
+library(dplyr)
 
-boroughs <- st_read("data/borough.geojson")
+# 读取数据
+coordinates_df <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
 
-ini_df_month <- ini_df %>%
-  mutate(Created_Date = as.Date(`Created Date`)) %>%
-  filter(year(Created_Date) == 2017 & month(Created_Date) == 7)
+# 只保留坐标数据，并去除缺失值
+coordinates_df <- coordinates_df %>%
+  select(Lat, Lon) %>% 
+  na.omit()
 
-leaflet(data = ini_df_month) %>%
-  setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
-  addTiles() %>%
-
-  addPolygons(
-    data = boroughs,
-    fillColor = "gray",
-    fillOpacity = 0.3,  
-    color = "black",
-    weight = 2,
-    popup = ~boro_name  
-  ) %>%
-
-  
+# 创建交互式地图
+leaflet(data = coordinates_df) %>%
+  addTiles() %>%  # 使用 OpenStreetMap 瓦片地图
   addCircleMarkers(
-    lng = ~Longitude,
-    lat = ~Latitude,
-    radius = 3,
-    color = "red",
-    fillOpacity = 0.5,
-    clusterOptions = markerClusterOptions()
+    ~Lon, ~Lat, 
+    color = "red", 
+    radius = 3, 
+    opacity = 0.8,
+    popup = paste("Latitude:", coordinates_df$Lat, "<br>", "Longitude:", coordinates_df$Lon)
+  ) %>%
+  addLegend(
+    "bottomright", 
+    colors = "red", 
+    labels = "Restaurants", 
+    title = "Legend"
   )
 
 ```
 
 
-
 ```{r}
-table(raw_df$Borough)
+# 加载必要的库
+library(dplyr)
+library(lubridate)
 
+# 读取数据
+weather_data <- read.csv("./data/weather_data.csv", stringsAsFactors = FALSE)
+
+# 转换 DATE 列为日期格式
+weather_data$DATE <- as.Date(weather_data$DATE)
+
+# 过滤数据，筛选 2010-01 至 2017-09
+filtered_data <- weather_data %>%
+  filter(DATE >= as.Date("2010-01-01") & DATE <= as.Date("2017-09-30"))
+
+# 计算每日平均气温，并取整数部分
+filtered_data <- filtered_data %>%
+  mutate(AVG_TEMP = floor((TMAX + TMIN) / 2))
+
+# 提取年-月份，并计算每月的平均气温
+weather_df <- filtered_data %>%
+  mutate(Year_Month = format(DATE, "%Y-%m")) %>%
+  group_by(Year_Month) %>%
+  summarise(AVG_TEMP = round(mean(AVG_TEMP, na.rm = TRUE)))
+
+# 查看最终结果
+print(weather_df)
 ```
+
 
 ```{r fig.align="center", echo = FALSE,fig.width = 13}
 library(ggplot2)
 library(dplyr)
 library(readr)
 library(lubridate)
-
 
 temp_df <- ini_df %>%
   mutate(Year = year(`Created Date`), Month = month(`Created Date`))
@@ -186,114 +310,68 @@ borough_trends <- temp_df %>%
 
 borough_trends <- borough_trends %>%
   mutate(Borough = trimws(toupper(Borough)))  
+borough_trends <- borough_trends[!is.na(borough_trends$Borough), ]
 
+# 开启新的绘图窗口
 dev.new(width = 50, height = 6)
 
-ggplot(borough_trends, aes(x = YearMonth, y = Count, color = Borough, group = Borough)) +
-  geom_line(size = 1.2) +  
-  geom_point(size = 2) +  
-  # coord_fixed(ratio = 0.5)+
-  theme_minimal(base_size = 14) +  
+# 绘图
+ggplot(borough_trends, aes(x = YearMonth)) +
+  # 事件趋势
+  geom_line(aes(y = Count, color = Borough, group = Borough), size = 1.2) +
+  geom_point(aes(y = Count, color = Borough), size = 2) +
+
+
+  # 主题美化
+  theme_minimal(base_size = 14) +
   theme(
-     plot.title = element_text(face = "bold", size = 16),
-    plot.background = element_rect(fill = "white"),  
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text( size = 12,family = "mono"),
+    axis.title.y = element_text(size = 12,family = "mono"),
+    axis.text.x = element_text(angle = 45,  hjust = 1,size = 10, face = "bold", family = "mono"),
+    axis.text.y = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines"),
+   
+    plot.background = element_rect(fill = "white"),
     panel.background = element_rect(fill = "white"),
     panel.grid.major = element_line(color = "gray80"),
     panel.grid.minor = element_blank(),
     legend.position = "right",
-    plot.margin = margin(10, 10, 10, 10)  
+    plot.margin = margin(10, 10, 10, 10),
   ) +
+
+  # 轴标签和标题
   labs(
-    title = "Incident Trends by Borough Over Time",
-    x = "Time (Year-Month)",
+    title = "Monthly New York Rat Sighting Report Trends from 2010 to 2017",
+    subtitlec="The number of sightings is trending upward year by year.",
+    x = "Time(Year-Month)",
     y = "Number of Incidents",
     color = "Borough"
   ) +
+
+  # 颜色设定
   scale_color_manual(values = c("BRONX" = "#a8b89a",
                                 "BROOKLYN" = "#a29bb3",
                                 "MANHATTAN" = "#d49391", 
                                 "QUEENS" = "#e5d5b2",
-                                "STATEN ISLAND" = "#98c4c1")) +  
-  scale_x_date(date_labels = "%Y-%m", date_breaks = "3 months") +  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
-  axis.text.y = element_text(size = 10)
+                                "STATEN ISLAND" = "#98c4c1")) +
+
+  # X 轴格式
+   scale_x_date(element_text(angle = 45, hjust = 1), date_labels = "%Y-%m", date_breaks = "6 months") +
+
+  # 次坐标轴
+  scale_y_continuous(sec.axis = sec_axis(~ . / 10, name = "Average Temperature (°F)"))
+
+ggsave("output_vis/borought_trends.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/borought_trends.png", width = 15, height = 12, dpi = 600)
 
 ```
 
-```{r fig.align="center", echo = FALSE,fig.width = 7 }
-# 加载必要的库
-library(ggplot2)
-library(sf)
-library(lubridate)
-
-# 读取 GeoJSON 文件
-geojson_file <- "./data/borough.geojson"  # 这里替换为你的文件路径
-nyc_map <- st_read(geojson_file)
-
-# 读取数据集
-df <- ini_df
-
-# 确保 Created Date 是日期格式
-df$Created_Date <- as.Date(df$`Created Date`, format="%Y-%m-%d")
-
-# 过滤 2010 年的数据
-df_2010 <- df[year(df$`Created Date`) == 2010, ]
-
-# 检查数据是否为空
-print(nrow(df_2010))
-
-library(lubridate)
-
-# 确保 Created_Date 是日期格式
-df_2010$Created_Date <- as.Date(df_2010$`Created Date`, format="%Y-%m-%d")
-
-# 提取月份并强制转换
-df_2010$Month <- factor(month(df_2010$Created_Date), 
-                        levels = 1:12, 
-                        labels = c("January", "February", "March", "April", "May", "June", 
-                                   "July", "August", "September", "October", "November", "December"))
-# 检查 Month 是否正确
-print(table(df_2010$Month))
-
-# 移除缺失的经纬度数据
-df_2010 <- df_2010[!is.na(df_2010$Latitude) & !is.na(df_2010$Longitude), ]
-
-# 确保数据不为空
-if (nrow(df_2010) > 0) {
-  # 绘制 3x4 的 Facet Map
-  ggplot() +
-    geom_sf(data = nyc_map, fill = "lightgray", color = "black", size = 0.3) +  # 画出底图
-    geom_point(data = df_2010, aes(x = Longitude, y = Latitude), 
-               color = "red", alpha = 0.5, size = 1) +  # 叠加目击事件点
-    facet_wrap(~ Month, ncol = 4) +  # 创建 3x4 布局
-    labs(title = "Monthly Rat Sightings in New York (2010)",
-         x = "Longitude", 
-         y = "Latitude") +
-    theme_minimal()
-} else {
-  print("No data available for 2010")
-}
-ggsave("./test.svg", 
-       width = 10, height = 6, dpi = 300)
-
-```
-```{r}
-library(lubridate)
-
-# 确保 Created_Date 是日期格式
-df_2010$Created_Date <- as.Date(df_2010$`Created Date`, format="%Y-%m-%d")
-
-# 提取月份并强制转换
-df_2010$Month <- factor(month(df_2010$Created_Date), 
-                        levels = 1:12, 
-                        labels = c("January", "February", "March", "April", "May", "June", 
-                                   "July", "August", "September", "October", "November", "December"))
-
-# 检查 Month 是否正确
-print(table(df_2010$Month))
-
-
-```
 
 ```{r}
 library(dplyr)
@@ -315,7 +393,7 @@ library(lubridate)
 df_brooklyn$Created_Date <- as.Date(df_brooklyn$`Created Date`, format="%Y-%m-%d")
 
 # 提取年份和月份
-df_brooklyn$YearMonth <- format(df_brooklyn$Created_Date, "%Y-%m")  # 转换为 YYYY-MM 格式
+df_brooklyn$YearMonth <- format(df_brooklyn$Created_Date, "%Y-%m")  
 
 # 统计每月的目击事件数量
 brooklyn_monthly <- df_brooklyn %>%
@@ -323,16 +401,255 @@ brooklyn_monthly <- df_brooklyn %>%
   summarise(Sightings = n()) %>%
   arrange(YearMonth)
 
-# 绘制折线图
-ggplot(brooklyn_monthly, aes(x = as.Date(paste0(YearMonth, "-01")), y = Sightings)) +
-  geom_line(color = "blue", size = 1) +  
-  geom_point(color = "red", size = 2) +  
-  labs(title = "Monthly Rat Sightings in Brooklyn",
-       x = "Date",
-       y = "Number of Sightings") +
-  theme_minimal()
+# 确保天气数据的 YearMonth 格式匹配
+weather_df <- weather_df %>%
+  mutate(YearMonth = format(as.Date(paste0(Year_Month, "-01")), "%Y-%m"))
+
+# 合并数据
+brooklyn_weather <- brooklyn_monthly %>%
+  left_join(weather_df, by = "YearMonth")
+
+# 转换 YearMonth 为日期格式
+brooklyn_weather$YearMonth <- as.Date(paste0(brooklyn_weather$YearMonth, "-01"))
+
+dev.new(width = 50, height = 6)
+# 绘图
+ggplot(brooklyn_weather, aes(x = YearMonth)) +
+  # 老鼠目击趋势
+  geom_line(aes(y = Sightings), color = "#a29bb3", size = 1.2) +  
+  geom_point(aes(y = Sightings), color = "#a29bb3", size = 1.2) +  
+
+  # 气温趋势（次坐标轴）
+  geom_line(aes(y = AVG_TEMP * 10), color = "#d49391",  size = 1,alpha = 0.6) +  
+  geom_point(aes(y = AVG_TEMP * 10), color = "#d49391", size = 1) +  
+
+  # 主题美化
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text(size = 12,family = "mono"),
+    axis.title.y = element_text(size = 12,family = "mono"),
+    axis.text.x = element_text(angle = 45,  hjust = 1,size = 10, face = "bold", family = "mono"),
+    axis.text.y = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.position = "right",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines")
+  ) +
+
+  # 轴标签和标题
+  labs(
+    title = "Monthly Rat Sightings in Brooklyn & Temperature Trends",
+    subtitle = "Scorching Summers & Rising Rats: A Borough Battle in Brooklyn",
+    x = "Date",
+    y = "Number of Sightings"
+  ) +
+
+  # X 轴格式
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "6 months") +
+
+  # 次坐标轴
+  scale_y_continuous(
+    sec.axis = sec_axis(~ . / 10, name = "Average Temperature (°F)")
+  )
+ggsave("output_vis/brooklyn_weather_sightings.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/brooklyn_weather_sightings.png", width = 15, height = 12, dpi = 600)
+```
+
+```{r}
+library(extrafont)
+```
+
+```{r}
+# 加载必要的库
+library(ggplot2)
+library(sf)
+library(dplyr)
+library(lubridate)
+library(ggspatial)  # 用于添加 OpenStreetMap 底图
+
+
+# ------------------ 读取 & 处理数据 ------------------
+
+# 读取餐厅坐标数据
+coordinates_df <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
+
+# 转换餐厅数据为 sf 对象
+coordinates_sf <- st_as_sf(coordinates_df, coords = c("Lon", "Lat"), crs = 4326)
+
+# 读取 GeoJSON 文件（Brooklyn 边界）
+boroughs <- st_read("./data/borough.geojson")
+
+# 仅筛选 Brooklyn 的 GeoJSON 图层
+brooklyn_geo <- boroughs %>%
+  filter(boro_name == "Brooklyn")  
+
+# 只保留真正位于 Brooklyn 内的餐厅
+brooklyn_restaurants <- coordinates_sf[st_within(coordinates_sf, brooklyn_geo, sparse = FALSE), ]
+
+
+# 读取老鼠目击事件数据
+rats_df <- df_brooklyn
+
+# 转换 `Created_Date` 为日期格式
+rats_df$Created_Date <- as.Date(rats_df$Created_Date, format="%Y-%m-%d")
+
+# 筛选 2017 年 7 月的老鼠数据
+rats_july_2017 <- rats_df %>%
+  filter(year(Created_Date) == 2017 & month(Created_Date) == 7) %>%
+  select(Latitude, Longitude) %>%
+  na.omit()
+
+# 转换老鼠数据为 sf 对象
+rats_sf <- st_as_sf(rats_july_2017, coords = c("Longitude", "Latitude"), crs = 4326)
+
+# 只保留真正位于 Brooklyn 内的老鼠事件
+brooklyn_rats <- rats_sf[st_within(rats_sf, brooklyn_geo, sparse = FALSE), ]
+
+
+# ------------------ 绘制优化后的地图 ------------------
+ggplot() +
+  # 添加 OpenStreetMap 作为底图
+  annotation_map_tile(type = "osm", zoom = 14) +  
+  
+  # 添加 Brooklyn 行政区边界
+  geom_sf(data = brooklyn_geo, fill = NA, color = "black", size = 1) +
+  
+  # 添加餐厅位置（蓝色点）
+  geom_sf(data = brooklyn_restaurants, color = "blue", size = 1.2, alpha = 1) +
+  
+  # 添加 2017年7月的老鼠目击事件（红色点）
+  geom_sf(data = brooklyn_rats, color = "red", size = 1.2, alpha = 0.6) +
+
+  # 设置地图样式，优化 grid
+  labs(title = "Brooklyn Restaurants & Rat Sightings (July 2017)",
+       x = "Longitude", y = "Latitude") +
+  theme_minimal() +
+  theme(
+    # 让 grid 线条显示在底图之上
+    panel.ontop = TRUE,  
+    
+    # 透明背景，防止底图被覆盖
+    panel.background = element_rect(fill = NA),  
+
+    # 调整网格线颜色和大小
+    panel.grid.major = element_line(color = "black", size = 0.2),  
+    panel.grid.minor = element_line(color = "gray90", size = 0.2)  
+  )
+
+# 保存 ggplot 为高分辨率图片
+ggsave("brooklyn_rat_restaurant.png", width = 15, height = 12, dpi = 600)
+
 
 ```
 
 
+
+```{r}
+# 加载必要的库
+library(ggplot2)
+library(sf)
+library(dplyr)
+library(lubridate)
+library(ggspatial)  # 用于添加 OpenStreetMap 底图
+library(viridis)  # 提供更直观的渐变色
+
+# ------------------ 读取 & 处理数据 ------------------
+
+# 读取更新后的 Brooklyn GeoJSON 文件（包含人口密度）
+brooklyn_geo <- st_read("./data/brooklyn_updated.geojson")
+
+# 读取餐厅坐标数据
+coordinates_df1 <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
+
+# 转换餐厅数据为 sf 对象
+coordinates_sf1 <- st_as_sf(coordinates_df, coords = c("Lon", "Lat"), crs = 4326)
+
+# 只保留真正位于 Brooklyn 内的餐厅
+brooklyn_restaurants <- coordinates_sf1[apply(st_within(coordinates_sf1, brooklyn_geo, sparse = FALSE), 1, any), ]
+
+# 读取老鼠目击事件数据
+rats_df <- df_brooklyn
+
+# 转换 `Created_Date` 为日期格式
+rats_df$Created_Date <- as.Date(rats_df$Created_Date, format="%Y-%m-%d")
+
+# 筛选 2017 年 7 月的老鼠数据
+rats_july_2017 <- rats_df %>%
+  filter(year(Created_Date) == 2017 ) %>%
+  select(Latitude, Longitude) %>%
+  na.omit()
+#& month(Created_Date) == 7
+
+# 转换老鼠数据为 sf 对象
+rats_sf <- st_as_sf(rats_july_2017, coords = c("Longitude", "Latitude"), crs = 4326)
+
+# 只保留真正位于 Brooklyn 内的老鼠事件
+brooklyn_rats <- rats_sf[apply(st_within(rats_sf, brooklyn_geo, sparse = FALSE), 1, any), ]
+
+
+# ------------------ 绘制优化后的地图 ------------------
+ggplot() +
+  # 添加 OpenStreetMap 作为底图
+  annotation_map_tile(type = "osm", zoom = 14) +  
+  
+  # 1️⃣ **人口密度热力层**
+  geom_sf(data = brooklyn_geo, aes(fill = population), color = "black", size = 0.5, alpha = 0.6) +
+  
+  # 设置颜色渐变（黄色 -> 红色，代表人口密度低 -> 高）
+  scale_fill_viridis(option = "viridis", direction = -1, na.value = "grey80") +
+
+  # 2️⃣ **餐厅位置（蓝色点）**
+  #geom_sf(data = brooklyn_restaurants, aes(color = "Restaurants", shape = "Restaurants"), size = 1.2, alpha = 1) +
+  
+  # 3️⃣ **2017年7月的老鼠目击事件（红色点）**
+  geom_sf(data = brooklyn_rats,aes(color = "Rat Sightings", shape = "Rat Sightings"), size = 1.2, alpha = 0.6) +
+  
+  scale_color_manual(name = "Legend", values = c("Restaurants" = "blue", "Rat Sightings" = "blue")) +
+  scale_shape_manual(name = "Legend", values = c("Restaurants" = 17, "Rat Sightings" = 16)) +
+
+  # 设置地图样式，优化 grid
+  labs(title = "More People, More Rats? Mapping Brooklyn’s Population & Infestation Hotspots",
+       subtitle = "Exploring the relationship between urban population density and rodent activity in Brooklyn's during Summer" ,
+       fill = "Population Density",
+       caption = 
+       "
+Date Range:  2017
+Data Source: https://www.kaggle.com/datasets/new-york-city/nyc-rat-sightings/data
+             https://github.com/blackmad/neighborhoods/blob/master/brooklyn.geojson
+             https://www.wikipedia.org/ 
+       ",
+       x = "Longitude", y = "Latitude") +
+  theme_minimal() +
+  theme(
+    # 让 grid 线条显示在底图之上 
+    panel.ontop = TRUE,  
+    
+    # 透明背景，防止底图被覆盖
+    panel.background = element_rect(fill = NA),  
+
+    # 调整网格线颜色和大小
+    panel.grid.major = element_line(color = "gray30",linetype = 'dashed', size = 0.2),  
+    panel.grid.minor = element_line(color = "gray30",linetype = 'dashed', size = 0.2) ,
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text(size = 8,family = "mono"),
+    axis.title.y = element_text(size = 8,family = "mono"),
+    axis.text = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.position = "right",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines")
+  )
+
+# 保存 ggplot 为高分辨率图片
+ggsave("output_vis/brooklyn_population_density_map.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/brooklyn_population_density_map.png", width = 15, height = 12, dpi = 600)
+
+```
 

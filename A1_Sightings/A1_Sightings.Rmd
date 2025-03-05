@@ -3,20 +3,149 @@ title: "A1: Sightings"
 author: "Weikang Yang"
 output: pdf_document
 ---
+# **Introduction**
+
+Major cities face continuous rat infestations that have significant impacts on public health and sanitation standards. The combination of high population density and complex infrastructure in New York City creates continuous difficulties in controlling rodent populations. Researchers analyzed rat sighting reports from 2010 to 2017 to determine patterns, geographical distribution, and seasonal changes in rat infestations. \newline
+
+Kaggle provides the dataset analyzed in this study which consists of public records about rat sightings submitted to New York City's 311 service. The data set records the specific dates and types of locations as well as the boroughs and specific position where rat sightings were reported. \newline
+
+Through report visualization and analysis the study aims to determine which areas experience the worst infestations and what time periods see the highest activity along with potential causal factors. The study's results present important information about rat population distribution patterns in urban settings which will benefit the planning of future urban development and pest management strategies. \newline
+
+# **Analysis by Visualization**
+## **Rat Sighting Distribution for Address Type**
+![~](output_vis\Distribution.png)
+The bar chart displays how rat sightings in New York City vary according to location types. The x-axis on the chart displays the number of reported sightings and the y-axis enumerates the various location types where these sightings took place. The color gradient from yellow to red indicates incident frequency levels where red signifies high counts and yellow indicates lower counts. The highest occurrence of rat sightings is found in buildings with three or more family apartments which surpasses both 1-2 family dwellings and mixed-use buildings. Hospitals, offices, and summer camps experience significantly lower numbers of reported incidents compared to other locations. The data visualization ranks locations by rat infestation reports while showing residential and commercial areas as primary infestation zones. \newline
+
+**Application of the CRAP Principles** \newline
+**- Contrast: **The yellow-to-red color gradient successfully emphasizes the differences in sighting counts and makes heavily impacted locations more visible. Using dark text on a light background improves the ease with which readers can understand written information. \newline
+**- Repetition: **Maintaining a professional look requires consistent font styles together with grid lines and bar alignment throughout the presentation. \newline
+**- Alignment: **The correct positioning of the title alongside axis labels and the legend maintains chart organization for straightforward interpretation. \newline
+**- Proximity: **Each bar matches its label closely which reduces the possibility of misinterpretation. The legend is located on the right side to maintain accessibility while preventing visual clutter. \newline
+
+**Application of Great Visualization Principles (Kieran Healy & Alberto Cairo)** \newline
+**- Kieran Healy’s Clarity: T**he visualization presents rat sightings for different location types in a straightforward manner that excludes extraneous elements. \newline
+**- Alberto Cairo’s Truthfulness: T**he visual representation maintains true scale and avoids any distortion of data. The horizontal bar format presents an accurate ranking of locations without any distortion. \newline
+**- Comparability: **The bar chart format enables straightforward comparison between different location types to highlight areas with highest rat infestation frequencies. \newline
+**- Functionality: **The gradient color scheme helps viewers to identify problematic regions at first glance without having to examine precise data values. \newline
+**- Aesthetic Appeal: **The visualization combines a smooth gradient with clean typography and minimalistic design to provide an informative and visually pleasing display. \newpage
+
+
+
+## **Rat Sighting Trends for Residential Building**
+Rat sightings show uneven distribution across location types while multi-family apartment buildings experience the highest levels of infestation. The results prompt an investigation into the temporal evolution of rat infestations within residential spaces. The upcoming visualization analyzes yearly residential trends to show how various housing types influence New York City's rat problem.\newline
+
+![~](output_vis\Residential_trends_stack.png)
+The stacked bar chart displays the annual patterns of rat sightings across various residential building types throughout the years 2010 to 2017. The chart categorizes incidents into three building types: The data separates rat sightings into three categories which include 3+ Family Apartment Buildings depicted in red and 1-2 Family Dwellings shown in green along with 3+ Family Mixed-Use Buildings highlighted in purple. The 3+ Family Apartment Buildings show the highest number of rat sightings throughout the years according to the data with a significant rise beginning in 2014 reaching its highest point in 2016 followed by a minor drop in 2017. 1-2 Family Dwellings follow a consistent trend while 3+ Family Mixed-Use Buildings show steady numbers that remain low. The visualization accurately demonstrates the increasing rat problem in multi-family residential buildings throughout the observed period. \newline
+
+**Application of the CRAP Principles ** \newline
+**- Contrast: **Distinct color representation of the three categories ensures that they can be easily distinguished from each other. The white background improves readability while grid lines give necessary structure to data without dominating it. \newline
+**- Repetition: **The uniform widths of bars together with regular grid spacing and consistent font styles produce a structured and professional visual presentation. \newline
+**- Alignment: **All elements including the title, axis labels and legend are correctly positioned to improve readability and interpretation. \newline
+**- Proximity: **The legend's position next to the bars allows users to easily match colors to different building types. The close alignment of the bars enables straightforward comparisons between different years. \newline
+
+
+**Application of Great Visualization Principles (Kieran Healy & Alberto Cairo)** \newline
+**- Kieran Healy’s Clarity: **The stacked bar chart format presents temporal changes efficiently and demonstrates the individual contribution of each building type towards rat sighting trends. \newline
+**- Alberto Cairo’s Truthfulness: T**he visual representation of data maintains accuracy throughout by avoiding any scaling manipulations or distortion techniques to depict genuine infestation patterns. \newline
+**- Comparability: **Combining these three categories into one stacked visualization makes it possible to analyze both the aggregate data volume and year-to-year proportions. \newline
+**- Functionality: **Yearly trends become clear to observe through the bar chart format which presents changes over time effectively. \newline
+**- Aesthetic Appeal: **The data representation achieves visual appeal and readability through its combination of a well-selected color palette and organized layout. \newpage
+
+
+
+## **Rat Sighting Trends for Each Borough**
+After known the trends for Rat Sightings in the building/address type, I also want to check how this trend differs among New York City's boroughs. This visualization demonstrates borough-specific patterns by showing which areas have seen the largest growth in rat activity along with the changes in rat sightings over time.
+
+![~](output_vis\borought_trends.png)
+The visualization shows the monthly patterns of rat sightings in all five boroughs of New York City including Bronx, Brooklyn, Manhattan, Queens and Staten Island throughout the period from 2010 to 2017. Rat sightings show a steady increase over time with peaks during warm months followed by declines in cold months. Rat incidents reach their peak numbers in Brooklyn and Manhattan but remain minimal in Staten Island. A cyclical pattern emerges in each borough which reflects the seasonal changes in rat activity. The peak in reported rat sightings occurred during 2016 and 2017 which demonstrates a growing issue as time progresses. A multi-line format combined with color coding facilitates straightforward comparisons between boroughs which enables easy identification of city-wide trends. \newline
+
+**Application of the CRAP Principles ** \newline
+**- Contrast: **Each borough features its own unique color to enable simple recognition. White background and grid lines maintain visual clarity by providing an organized and clear presentation. \newline
+**- Repetition: **Uniform application of grid lines and font styles alongside axis formatting creates a structured appearance across the chart. \newline
+**- Alignment: **The chart maintains readability through well-aligned title and axis labels along with a subtitle. The legend appears on the right side of the chart to maintain data visibility while remaining easily reachable. \newline
+**- Proximity: **The legend's location near the visualization helps viewers quickly connect colors to boroughs. The time series data points maintain equal spacing to prevent visual congestion. \newline
+
+
+**Application of Great Visualization Principles (Kieran Healy & Alberto Cairo)** \newline
+**- Kieran Healy’s Clarity: **The chart delivers rat sighting trends through streamlined elements that emphasize data analysis. \newline
+**- Alberto Cairo’s Truthfulness: **This visualization faithfully displays rat sighting numbers over time without manipulating axes or data for visual bias. \newline
+**- Comparability:** Displaying all five boroughs on a single graph allows observers to easily compare their relative trends in rat infestation. \newline
+**- Functionality: **The line format allows users to track temporal changes while clear labeling maintains accessibility across various audiences. \newline
+**- Aesthetic Appeal: **The professional and visually pleasing presentation results from selecting appropriate colors combined with a clean background and organized gridlines. \newpage
+
+
+
+
+## **Rat Sighting with Tempreture in Brooklyn**
+Brooklyn and Manhattan show the most rat sightings according to borough-level data yet it remains to investigate which external elements are driving these trends. The relationship between temperature fluctuations and rat activity patterns emerges from seasonal variations which we examine by matching temperature data with rat sightings in Brooklyn through subsequent visualization.
+![~](output_vis\brooklyn_weather_sightings.png) 
+
+
+This line chart displays data on Brooklyn's monthly rat sightings from 2010 to 2017 together with trends in average temperature. The purple line tracks rat sightings and the red line shows average temperature using a secondary axis for comparison. The chart demonstrates that rat sightings reach their highest levels during warmer periods but drop during colder periods which indicates temperature changes may influence rat activity levels. The data demonstrates a rising trend in rat sightings throughout the years especially after 2014 though significant fluctuations exist. The visualization uses a dual-axis format to merge two interrelated variables which demonstrates potential environmental impacts on rodent population patterns. \newline
+
+**Application of the CRAP Principles ** \newline
+**- Contrast: **The dual-color line representation makes rat sightings and temperature trends easily distinguishable for simple comparison. The dark background makes the white grid lines stand out which enhances readability. \newline
+**- Repetition: **The chart maintains visual coherence through uniformity in font style, grid pattern and line width. \newline
+**- Alignment: **Both variables remain easy to interpret because of the well-balanced dual-axis structure. The legend placement ensures it does not obstruct the data presentation. \newline
+**- Proximity: **The visualization of rat sightings alongside temperature patterns enables immediate visual analysis due to their close plotting. The legend is positioned close to the data lines to facilitate quick reference. \newline
+
+**Application of Great Visualization Principles (Kieran Healy & Alberto Cairo)** \newline
+**- Kieran Healy’s Clarity: **The visualization maintains clarity by eliminating superfluous elements to highlight trends in rat sightings and temperature across seasons and long-term periods. \newline
+**- Alberto Cairo’s Truthfulness: **The visualization ensures accurate data representation by using a scaled secondary axis which helps prevent temperature exaggeration while maintaining proper context. \newline
+**- Comparability:** The dual-line format delivers an immediate comparison of temperature fluctuations alongside rat sightings throughout different periods. \newline
+**- Functionality:** The dual-axis layout successfully displays two connected datasets and the time-series format highlights seasonal trends with ease. \newline
+**- Aesthetic Appeal:** The visualization achieves informative clarity while being visually appealing through its soft color palette and organized grid structure. \newpage
+
+
+
+### **Rat Sighting and Population in Brooklyn Borough**
+Seasonal rat activity depends heavily on temperature readings while population density and human activities remain critical factors in controlling infestation rates. This visualization enables spatial analysis by mapping Brooklyn’s population together with rat sighting locations to show  how the different human  activity level will effect the rat sightings.\newline
+![~](output_vis\brooklyn_population_density_map.png)
+The interactive map demonstrates how Brooklyn's population density intersects with reported rat sightings from 2017 to analyze potential relationships between popultaion and rat sighting report. The map uses colored regions to show population density where darker colors represent areas with greater population density. The blue dots on this map represent locations where rat sightings have been reported to show how they are distributed throughout various neighborhoods. Northern and central Brooklyn display more rat sightings in their densely populated regions, and with this area as the center, it affects the surrounding area.. The provided visualization enables users to discover areas with intense rodent activity which might be shaped by waste disposal practices and human density alongside infrastructure conditions. The map demonstrates where rat infestations peak by superimposing rat sighting data onto Brooklyn's detailed geographic representation. \newline
+
+**Application of the CRAP Principles ** \newline
+**- Contrast:** The population gradient color scale allows users to easily differentiate between varying levels. The blue dots indicating rat sightings are clearly visible because they stand out from the background. \newline
+**- Repetition:** Consistent gridlines and fonts along with uniform data layering methods ensure the map remains visually coherent. \newline
+**- Alignment:** The title, legend, and axis labels maintain proper positioning which facilitates easy understanding while supporting a balanced and organized layout. \newline
+**- Proximity:** By placing rat sighting points directly on the population density map their relationship becomes more apparent. The legend placement at the right side ensures visibility while avoiding disruption to the map visualization. \newline
+
+**Application of Great Visualization Principles (Kieran Healy & Alberto Cairo)** \newline
+**- Kieran Healy’s **Clarity: Viewers get a straightforward depiction of Brooklyn's population densities alongside rat infestations using an uncluttered map layout. \newline
+**- Alberto Cairo’s Truthfulness: **The map provides precise representation of data while maintaining geographical correctness and avoiding any distortions in the locations of rat sightings or population density scales. \newline
+**- Comparability:** The combination of population density information with rat sighting data allows viewers to make straightforward comparisons between different regions while recognizing infestation trends. \newline
+**- Functionality:** Through a map format viewers can effectively perform spatial analysis to observe infestation concentration areas in relation to population density levels. \newline
+**- Aesthetic Appeal:** The map's smooth color gradients together with clear labeling and structured elements deliver an informative and visually appealing depiction of urban rodent activity. \newline
+
+
+# **Counclution**
+New York City rat sightings between 2010 and 2017 demonstrate the expansion of the rodent problem in densely packed residential zones. The most frequent rat sightings occur in multi-family apartment buildings which suggests that both housing density and waste management methods are likely contributing factors to these infestations. After 2014 there was a significant rise in rat reports which points to possible alterations in urban infrastructure development or reporting processes. The impact of climate on rodent behavior becomes evident through seasonal patterns that show warmer temperatures lead to increased rat activity. Data comparing boroughs shows Brooklyn and Manhattan as the most heavily impacted by rat infestations in their densely populated neighborhoods. The spatial analysis of rat sightings in Brooklyn reveals that densely populated areas suffer the most infestations because human activities like improper waste disposal and poor sanitation facilitate rodent growth. The findings demonstrate that pest control methods must be specifically developed for densely populated urban areas with high infestation rates.
+\newpage
+
+
+
+
+
+
+# **Working Process**
+
+## **Data Cleaning and Processing**
 
 ```{r message=FALSE, warning=FALSE}
+# Read the original data set and check the column 
+# to check the information that contained in the dataset 
 library(readr)
 raw_df <- read_csv("data/A1_sightings.csv")
 colnames(raw_df)
 ```
 
 
-```{r}
+```{r  message=FALSE, warning=FALSE}
+# select the column that we need to do the visulization and analysis
 library(dplyr)
-
 ini_df <- raw_df %>%
   select(-c(
-    "Resolution Action Updated Date","Status","Due Date","Closed Date","Agency", "Agency Name", "Complaint Type", "Descriptor", "Landmark",
+    "Resolution Action Updated Date","Status","Due Date","Closed Date",
+    "Agency", "Agency Name", "Complaint Type", "Descriptor", "Landmark",
     "Facility Type", "Park Facility Name", "Park Borough",
     "School Name", "School Number", "School Region", "School Code",
     "School Phone Number", "School Address", "School City",
@@ -34,7 +163,8 @@ colnames(ini_df)
 table(ini_df$`Location Type`)
 
 ```
-```{r}
+
+```{r  message=FALSE, warning=FALSE}
 library(dplyr)
 library(lubridate)
 library(tidyr)
@@ -52,239 +182,178 @@ ini_df <- ini_df %>%
     # `Y Coordinate (State Plane)` = replace_na(`Y Coordinate (State Plane)`, 0)
   )
 
-# 2. 转换日期格式 -----
+# Transform the Date Format
 ini_df <- ini_df %>%
   mutate(
     `Created Date` = mdy_hms(`Created Date`),
   )
 
-# 3. 清理地址字段 -----
+# 3. Clean & Normalize the address column
 ini_df <- ini_df %>%
   mutate(
-    `Incident Zip` = as.character(`Incident Zip`),  # 防止丢失前导0
-    `City` = str_to_title(trimws(`City`)),  # 清除空格 & 标准化大小写
+    `Incident Zip` = as.character(`Incident Zip`),  
+    `City` = str_to_title(trimws(`City`)), 
     `Borough` = str_to_title(trimws(`Borough`))
   )
 
-# 4. 处理坐标数据 -----
+# Clean the position data, we will make a map later
 ini_df <- ini_df %>%
   mutate(
     `Latitude` = as.numeric(`Latitude`),
     `Longitude` = as.numeric(`Longitude`)
   )
 
-# 5. 去重 -----
+# remove the duplicated information
 ini_df <- ini_df %>% distinct()
 
 write_csv(ini_df[1:100, ], "ini_df.csv")
 
-# 查看清理后的数据
+# check the dataframe that we already cleaned 
 glimpse(ini_df)
 
 ```
 
-```{r}
-# 加载必要的库
+## **Plot the Visualization**
+```{r  message=FALSE, warning=FALSE}
 library(ggplot2)
 library(dplyr)
 library(readr)
 
-# 计算每种 Location Type 的数量
+# count the Location Type, and sort in Decreasing 
 location_counts <- ini_df %>%
+  filter(!is.na(`Location Type`)) %>%  
   count(`Location Type`, name = "Count") %>%
   arrange(desc(Count))
 
-# 画柱状图
-ggplot(location_counts, aes(x = reorder(`Location Type`, -Count), y = Count)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  coord_flip() +  # 让标签更容易阅读
+# plot the bar chart, use the color to show the level of count
+# plot the bar chart horizontal, make the label of building type more easier to read
+ggplot(location_counts, aes(x = reorder(`Location Type`, Count), y = Count, fill = Count)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  
+  scale_fill_gradient(low = "yellow", high = "red") +  
   labs(title = "Distribution of Incidents by Location Type",
        x = "Location Type", y = "Count") +
-  theme_minimal()+
-  theme(
-    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
-    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
-    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
-    axis.title = element_text(size = 14, family = "sans"),  
-    axis.title.x = element_text( size = 8,family = "mono"),
-    axis.title.y = element_text(size = 8,family = "mono"),
-    axis.text = element_text(size = 10, face = "bold", family = "mono"),
-    plot.caption.position = "plot",
-    legend.title = element_text(size = 10, face = "bold"),
-    panel.spacing = unit(1.3, "lines"),
-   
-    plot.background = element_rect(fill = "white"),
-    panel.background = element_rect(fill = "white"),
-    panel.grid.major = element_line(color = "gray80"),
-    panel.grid.minor = element_blank(),
-    legend.position = "right",
-    plot.margin = margin(10, 10, 10, 10),
-  )
-
-ggsave("output_vis/Distribution.pdf", width = 15, height = 12, dpi = 600)
-ggsave("output_vis/Distribution.png", width = 15, height = 12, dpi = 600)
-```
-
-```{r}
-# 加载必要的库
-library(ggplot2)
-library(dplyr)
-library(readr)
-
-
-# 转换日期格式
-ini_df <- ini_df %>%
-  mutate(`Created Date` = as.Date(`Created Date`))
-
-# 选择多个 Location Type
-selected_types <- c("3+ Family Apt. Building", 
-                    "1-2 Family Dwelling",
-                    "3+ Family Mixed Use Building")
-
-# 过滤数据
-filtered_df <- ini_df %>%
-  filter(`Location Type` %in% selected_types) %>%
-  mutate(Month = format(`Created Date`, "%Y-%m")) %>%
-  count(Month, `Location Type`)
-
-# 画折线图，用户可自定义颜色
-ggplot(filtered_df, aes(x = Month, y = n, color = `Location Type`, group = `Location Type`)) +
-  geom_line(size = 1) + 
-  geom_point(size = 2) +
   theme_minimal() +
   theme(
     plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
     plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
     plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
     axis.title = element_text(size = 14, family = "sans"),  
-    axis.title.x = element_text( size = 8,family = "mono"),
-    axis.title.y = element_text(size = 8,family = "mono"),
+    axis.title.x = element_text(size = 8, family = "mono"),
+    axis.title.y = element_text(size = 8, family = "mono"),
     axis.text = element_text(size = 10, face = "bold", family = "mono"),
     plot.caption.position = "plot",
     legend.title = element_text(size = 10, face = "bold"),
     panel.spacing = unit(1.3, "lines"),
-   
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "gray80"),
+    panel.grid.major = element_line(color = "gray70"),
+    panel.grid.minor = element_blank(),
+    legend.position = "right",
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+# save the plot
+ggsave("output_vis/Distribution.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/Distribution.png", width = 15, height = 12, dpi = 600)
+
+```
+
+```{r  message=FALSE, warning=FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+#select the Residential building 
+selected_types <- c("3+ Family Apt. Building", 
+                    "1-2 Family Dwelling",
+                    "3+ Family Mixed Use Building")
+
+# filter the data from original data set, plot the stack with decreasing order
+filtered_df <- ini_df %>%
+  filter(`Location Type` %in% selected_types) %>%
+  mutate(Year = format(`Created Date`, "%Y"),
+         `Location Type` = factor(`Location Type`, levels = c("3+ Family Apt. Building", 
+                                                              "1-2 Family Dwelling",
+                                                              "3+ Family Mixed Use Building"))) %>%
+  count(Year, `Location Type`)
+
+# plot the stack bar chart
+ggplot(filtered_df, aes(x = Year, y = n, fill = `Location Type`)) +
+  geom_bar(stat = "identity", position = "stack") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
+    plot.subtitle = element_text(size = 14, face = "italic", family = "sans"),
+    plot.caption = element_text(size = 9, face = "italic", family = "mono", hjust = 0),
+    axis.title = element_text(size = 14, family = "sans"),  
+    axis.title.x = element_text(size = 12, family = "mono"),
+    axis.title.y = element_text(size = 12, family = "mono"),
+    axis.text = element_text(size = 10, face = "bold", family = "mono"),
+    plot.caption.position = "plot",
+    legend.title = element_text(size = 10, face = "bold"),
+    panel.spacing = unit(1.3, "lines"),
     plot.background = element_rect(fill = "white"),
     panel.background = element_rect(fill = "white"),
     panel.grid.major = element_line(color = "gray80"),
     panel.grid.minor = element_blank(),
     legend.position = "right",
-    plot.margin = margin(10, 10, 10, 10),
-  )+
-  scale_x_discrete(breaks = filtered_df$Month[seq(1, length(filtered_df$Month), by = 6)]) +  # 每2个月一个标记
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # x轴标签倾斜45度
-  
-  labs(title = "2014 - The Start of Increasing in Rat Sightings for 3+Family Apt.",
-       subtitlec="Rat Sightings analysis of residential buildings (2010-2017)",
-       x = "Month", y = "Count") +
-  scale_color_manual(values = c("#d49391", "#a8b89a", "#a29bb3"))  # 用户可修改颜色
+    plot.margin = margin(10, 10, 10, 10)
+  ) +
+  scale_fill_manual(values = c("#d49391", "#a8b89a", "#a29bb3")) + 
+  labs(title = "Yearly Trends of Incidents in Residential Buildings",
+       subtitle = "Rat Sightings Analysis of Residential Buildings (2010-2017)",
+       x = "Year", y = "Count", fill = "Location Type")
 
-ggsave("output_vis/Residential_trends.pdf", width = 15, height = 12, dpi = 600)
-ggsave("output_vis/Residential_trends.png", width = 15, height = 12, dpi = 600)
-
+# save the plot
+ggsave("output_vis/Residential_trends_stack.pdf", width = 15, height = 12, dpi = 600)
+ggsave("output_vis/Residential_trends_stack.png", width = 15, height = 12, dpi = 600)
 ```
 
 
 
 
 
-```{r, width = 13}
-library(leaflet)
+```{r, message=FALSE, warning=FALSE, width = 13,}
 library(readr)
 library(sf) 
 
-boroughs <- st_read("data/borough.geojson")
+suppressMessages(suppressWarnings({
+  boroughs <- st_read("data/borough.geojson")
+}))
 
-ini_df_month <- ini_df %>%
-  mutate(Created_Date = as.Date(`Created Date`)) %>%
-  filter(year(Created_Date) == 2017)
-# & month(Created_Date) == 7
-leaflet(data = ini_df_month) %>%
-  setView(lng = -73.935242, lat = 40.730610, zoom = 10.3) %>%
-  addTiles() %>%
-
-  addPolygons(
-    data = boroughs,
-    fillColor = "gray",
-    fillOpacity = 0.3,  
-    color = "black",
-    weight = 2,
-    popup = ~boro_name  
-  ) %>%
-
-  
-  addCircleMarkers(
-    lng = ~Longitude,
-    lat = ~Latitude,
-    radius = 3,
-    color = "red",
-    fillOpacity = 0.5,
-   # clusterOptions = markerClusterOptions()
-  )
 
 
 ```
 
 
-```{r}
-# 加载必要的库
-library(leaflet)
-library(dplyr)
 
-# 读取数据
-coordinates_df <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
-
-# 只保留坐标数据，并去除缺失值
-coordinates_df <- coordinates_df %>%
-  select(Lat, Lon) %>% 
-  na.omit()
-
-# 创建交互式地图
-leaflet(data = coordinates_df) %>%
-  addTiles() %>%  # 使用 OpenStreetMap 瓦片地图
-  addCircleMarkers(
-    ~Lon, ~Lat, 
-    color = "red", 
-    radius = 3, 
-    opacity = 0.8,
-    popup = paste("Latitude:", coordinates_df$Lat, "<br>", "Longitude:", coordinates_df$Lon)
-  ) %>%
-  addLegend(
-    "bottomright", 
-    colors = "red", 
-    labels = "Restaurants", 
-    title = "Legend"
-  )
-
-```
-
-
-```{r}
-# 加载必要的库
+```{r message=FALSE, warning=FALSE}
 library(dplyr)
 library(lubridate)
 
-# 读取数据
+# Read the weather data
 weather_data <- read.csv("./data/weather_data.csv", stringsAsFactors = FALSE)
 
-# 转换 DATE 列为日期格式
+# Transform the DATE column to date format
 weather_data$DATE <- as.Date(weather_data$DATE)
 
-# 过滤数据，筛选 2010-01 至 2017-09
+# filrter the weather data to the range 2010-01 to 2017-09
 filtered_data <- weather_data %>%
   filter(DATE >= as.Date("2010-01-01") & DATE <= as.Date("2017-09-30"))
 
-# 计算每日平均气温，并取整数部分
+# calculate the daily average temperature(integer)
 filtered_data <- filtered_data %>%
   mutate(AVG_TEMP = floor((TMAX + TMIN) / 2))
 
-# 提取年-月份，并计算每月的平均气温
+# calculate the monthly average temperature base on the daily average
 weather_df <- filtered_data %>%
   mutate(Year_Month = format(DATE, "%Y-%m")) %>%
   group_by(Year_Month) %>%
   summarise(AVG_TEMP = round(mean(AVG_TEMP, na.rm = TRUE)))
 
-# 查看最终结果
+# check the result
 print(weather_df)
 ```
 
@@ -295,14 +364,15 @@ library(dplyr)
 library(readr)
 library(lubridate)
 
+# check the column formate
 temp_df <- ini_df %>%
   mutate(Year = year(`Created Date`), Month = month(`Created Date`))
 
-
+# abstract the month 
 temp_df <- temp_df %>%
   mutate(Month = sprintf("%02d", Month))  
 
-
+#group the data by Year/month and Boroughs 
 borough_trends <- temp_df %>%
   group_by(Borough, Year, Month) %>%
   summarise(Count = n(), .groups = "drop") %>%
@@ -311,18 +381,16 @@ borough_trends <- temp_df %>%
 borough_trends <- borough_trends %>%
   mutate(Borough = trimws(toupper(Borough)))  
 borough_trends <- borough_trends[!is.na(borough_trends$Borough), ]
-
-# 开启新的绘图窗口
 dev.new(width = 50, height = 6)
 
-# 绘图
+# plot the chart
 ggplot(borough_trends, aes(x = YearMonth)) +
-  # 事件趋势
+  # count the sightings in each group and plot the trends
   geom_line(aes(y = Count, color = Borough, group = Borough), size = 1.2) +
   geom_point(aes(y = Count, color = Borough), size = 2) +
 
 
-  # 主题美化
+  # set theme
   theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
@@ -336,7 +404,7 @@ ggplot(borough_trends, aes(x = YearMonth)) +
     plot.caption.position = "plot",
     legend.title = element_text(size = 10, face = "bold"),
     panel.spacing = unit(1.3, "lines"),
-   
+    
     plot.background = element_rect(fill = "white"),
     panel.background = element_rect(fill = "white"),
     panel.grid.major = element_line(color = "gray80"),
@@ -345,7 +413,7 @@ ggplot(borough_trends, aes(x = YearMonth)) +
     plot.margin = margin(10, 10, 10, 10),
   ) +
 
-  # 轴标签和标题
+  # titles and labels
   labs(
     title = "Monthly New York Rat Sighting Report Trends from 2010 to 2017",
     subtitlec="The number of sightings is trending upward year by year.",
@@ -354,17 +422,15 @@ ggplot(borough_trends, aes(x = YearMonth)) +
     color = "Borough"
   ) +
 
-  # 颜色设定
+
   scale_color_manual(values = c("BRONX" = "#a8b89a",
                                 "BROOKLYN" = "#a29bb3",
                                 "MANHATTAN" = "#d49391", 
                                 "QUEENS" = "#e5d5b2",
                                 "STATEN ISLAND" = "#98c4c1")) +
 
-  # X 轴格式
-   scale_x_date(element_text(angle = 45, hjust = 1), date_labels = "%Y-%m", date_breaks = "6 months") +
 
-  # 次坐标轴
+   scale_x_date(element_text(angle = 45, hjust = 1), date_labels = "%Y-%m", date_breaks = "6 months") +
   scale_y_continuous(sec.axis = sec_axis(~ . / 10, name = "Average Temperature (°F)"))
 
 ggsave("output_vis/borought_trends.pdf", width = 15, height = 12, dpi = 600)
@@ -373,15 +439,14 @@ ggsave("output_vis/borought_trends.png", width = 15, height = 12, dpi = 600)
 ```
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(dplyr)
 
-# 创建 Brooklyn 的数据子集
+# filter the Brooklyn borough with a subset 
 df_brooklyn <- temp_df %>% filter(Borough == "Brooklyn")
 
-# 检查数据
-print(nrow(df_brooklyn))  # 查看 Brooklyn 的数据量
-head(df_brooklyn)         # 显示前几行数据
+# check the sub-dataset
+head(df_brooklyn)     
 
 ```
 ```{r}
@@ -389,41 +454,46 @@ library(ggplot2)
 library(dplyr)
 library(lubridate)
 
-# 确保 Created Date 是日期格式
+# make sure the Created Date =column is DATE format
 df_brooklyn$Created_Date <- as.Date(df_brooklyn$`Created Date`, format="%Y-%m-%d")
 
-# 提取年份和月份
+# abstract the year and month
 df_brooklyn$YearMonth <- format(df_brooklyn$Created_Date, "%Y-%m")  
 
-# 统计每月的目击事件数量
+# count the event for each month
 brooklyn_monthly <- df_brooklyn %>%
   group_by(YearMonth) %>%
   summarise(Sightings = n()) %>%
   arrange(YearMonth)
 
-# 确保天气数据的 YearMonth 格式匹配
+# make sure the data in the YearMonth column is match the fomat in sub-Brookly set 
 weather_df <- weather_df %>%
   mutate(YearMonth = format(as.Date(paste0(Year_Month, "-01")), "%Y-%m"))
 
-# 合并数据
+# merge the data
 brooklyn_weather <- brooklyn_monthly %>%
   left_join(weather_df, by = "YearMonth")
 
-# 转换 YearMonth 为日期格式
+# check the Date format again after the merge operation
 brooklyn_weather$YearMonth <- as.Date(paste0(brooklyn_weather$YearMonth, "-01"))
 
-dev.new(width = 50, height = 6)
-# 绘图
-ggplot(brooklyn_weather, aes(x = YearMonth)) +
-  # 老鼠目击趋势
-  geom_line(aes(y = Sightings), color = "#a29bb3", size = 1.2) +  
-  geom_point(aes(y = Sightings), color = "#a29bb3", size = 1.2) +  
+# adjust the format of data, transform the "Sightings" and "AVG_TEMP" to different variables 
+brooklyn_weather_long <- brooklyn_weather %>%
+  mutate(AVG_TEMP_Scaled = AVG_TEMP * 10) %>%  # make temperature and sightings in the same data range
+  select(YearMonth, Sightings, AVG_TEMP_Scaled) %>%
+  pivot_longer(cols = c(Sightings, AVG_TEMP_Scaled), 
+               names_to = "Variable", 
+               values_to = "Value")
 
-  # 气温趋势（次坐标轴）
-  geom_line(aes(y = AVG_TEMP * 10), color = "#d49391",  size = 1,alpha = 0.6) +  
-  geom_point(aes(y = AVG_TEMP * 10), color = "#d49391", size = 1) +  
 
-  # 主题美化
+color_map <- c("AVG_TEMP_Scaled" = "#d49391","Sightings" = "#a8b89a" )
+
+# plot the data
+ggplot(brooklyn_weather_long, aes(x = YearMonth, y = Value, color = Variable, group = Variable)) +
+  geom_line(size = 1.2) +  
+  geom_point(size = 1.2) +  
+
+  # theme
   theme_minimal() +
   theme(
     plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
@@ -437,184 +507,87 @@ ggplot(brooklyn_weather, aes(x = YearMonth)) +
     plot.caption.position = "plot",
     legend.position = "right",
     legend.title = element_text(size = 10, face = "bold"),
-    panel.spacing = unit(1.3, "lines")
+    panel.spacing = unit(1.3, "lines"),
+    panel.grid.major = element_line(color = "gray90"),
+    panel.grid.minor = element_blank()
   ) +
 
-  # 轴标签和标题
+  # label and title
   labs(
     title = "Monthly Rat Sightings in Brooklyn & Temperature Trends",
     subtitle = "Scorching Summers & Rising Rats: A Borough Battle in Brooklyn",
     x = "Date",
-    y = "Number of Sightings"
+    y = "Number of Sightings",
+    color = "Legend"
   ) +
 
-  # X 轴格式
-  scale_x_date(date_labels = "%Y-%m", date_breaks = "6 months") +
 
-  # 次坐标轴
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "6 months") +
+ 
+   scale_color_manual(values = color_map, labels = c( "Average Temperature (F)","Sightings"))+
+  
   scale_y_continuous(
     sec.axis = sec_axis(~ . / 10, name = "Average Temperature (°F)")
   )
+
 ggsave("output_vis/brooklyn_weather_sightings.pdf", width = 15, height = 12, dpi = 600)
 ggsave("output_vis/brooklyn_weather_sightings.png", width = 15, height = 12, dpi = 600)
+
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(extrafont)
 ```
 
-```{r}
-# 加载必要的库
+```{r message=FALSE, warning=FALSE}
 library(ggplot2)
 library(sf)
 library(dplyr)
 library(lubridate)
-library(ggspatial)  # 用于添加 OpenStreetMap 底图
+library(ggspatial)  # OpenStreetMap for map layer
+library(viridis)  # for color assign
 
-
-# ------------------ 读取 & 处理数据 ------------------
-
-# 读取餐厅坐标数据
-coordinates_df <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
-
-# 转换餐厅数据为 sf 对象
-coordinates_sf <- st_as_sf(coordinates_df, coords = c("Lon", "Lat"), crs = 4326)
-
-# 读取 GeoJSON 文件（Brooklyn 边界）
-boroughs <- st_read("./data/borough.geojson")
-
-# 仅筛选 Brooklyn 的 GeoJSON 图层
-brooklyn_geo <- boroughs %>%
-  filter(boro_name == "Brooklyn")  
-
-# 只保留真正位于 Brooklyn 内的餐厅
-brooklyn_restaurants <- coordinates_sf[st_within(coordinates_sf, brooklyn_geo, sparse = FALSE), ]
-
-
-# 读取老鼠目击事件数据
-rats_df <- df_brooklyn
-
-# 转换 `Created_Date` 为日期格式
-rats_df$Created_Date <- as.Date(rats_df$Created_Date, format="%Y-%m-%d")
-
-# 筛选 2017 年 7 月的老鼠数据
-rats_july_2017 <- rats_df %>%
-  filter(year(Created_Date) == 2017 & month(Created_Date) == 7) %>%
-  select(Latitude, Longitude) %>%
-  na.omit()
-
-# 转换老鼠数据为 sf 对象
-rats_sf <- st_as_sf(rats_july_2017, coords = c("Longitude", "Latitude"), crs = 4326)
-
-# 只保留真正位于 Brooklyn 内的老鼠事件
-brooklyn_rats <- rats_sf[st_within(rats_sf, brooklyn_geo, sparse = FALSE), ]
-
-
-# ------------------ 绘制优化后的地图 ------------------
-ggplot() +
-  # 添加 OpenStreetMap 作为底图
-  annotation_map_tile(type = "osm", zoom = 14) +  
-  
-  # 添加 Brooklyn 行政区边界
-  geom_sf(data = brooklyn_geo, fill = NA, color = "black", size = 1) +
-  
-  # 添加餐厅位置（蓝色点）
-  geom_sf(data = brooklyn_restaurants, color = "blue", size = 1.2, alpha = 1) +
-  
-  # 添加 2017年7月的老鼠目击事件（红色点）
-  geom_sf(data = brooklyn_rats, color = "red", size = 1.2, alpha = 0.6) +
-
-  # 设置地图样式，优化 grid
-  labs(title = "Brooklyn Restaurants & Rat Sightings (July 2017)",
-       x = "Longitude", y = "Latitude") +
-  theme_minimal() +
-  theme(
-    # 让 grid 线条显示在底图之上
-    panel.ontop = TRUE,  
-    
-    # 透明背景，防止底图被覆盖
-    panel.background = element_rect(fill = NA),  
-
-    # 调整网格线颜色和大小
-    panel.grid.major = element_line(color = "black", size = 0.2),  
-    panel.grid.minor = element_line(color = "gray90", size = 0.2)  
-  )
-
-# 保存 ggplot 为高分辨率图片
-ggsave("brooklyn_rat_restaurant.png", width = 15, height = 12, dpi = 600)
-
-
-```
-
-
-
-```{r}
-# 加载必要的库
-library(ggplot2)
-library(sf)
-library(dplyr)
-library(lubridate)
-library(ggspatial)  # 用于添加 OpenStreetMap 底图
-library(viridis)  # 提供更直观的渐变色
-
-# ------------------ 读取 & 处理数据 ------------------
-
-# 读取更新后的 Brooklyn GeoJSON 文件（包含人口密度）
+# read the Brooklyn community data with the population from wikipidia
 brooklyn_geo <- st_read("./data/brooklyn_updated.geojson")
 
-# 读取餐厅坐标数据
-coordinates_df1 <- read.csv("./data/brooklyn_restaurants_full_12km.csv", stringsAsFactors = FALSE)
 
-# 转换餐厅数据为 sf 对象
-coordinates_sf1 <- st_as_sf(coordinates_df, coords = c("Lon", "Lat"), crs = 4326)
-
-# 只保留真正位于 Brooklyn 内的餐厅
-brooklyn_restaurants <- coordinates_sf1[apply(st_within(coordinates_sf1, brooklyn_geo, sparse = FALSE), 1, any), ]
-
-# 读取老鼠目击事件数据
+# read the rat sighting events from the data frame we set before
 rats_df <- df_brooklyn
-
-# 转换 `Created_Date` 为日期格式
 rats_df$Created_Date <- as.Date(rats_df$Created_Date, format="%Y-%m-%d")
 
-# 筛选 2017 年 7 月的老鼠数据
+# filter the data for 2017
 rats_july_2017 <- rats_df %>%
   filter(year(Created_Date) == 2017 ) %>%
   select(Latitude, Longitude) %>%
   na.omit()
-#& month(Created_Date) == 7
 
-# 转换老鼠数据为 sf 对象
+# transform the rat data into sf object
 rats_sf <- st_as_sf(rats_july_2017, coords = c("Longitude", "Latitude"), crs = 4326)
 
-# 只保留真正位于 Brooklyn 内的老鼠事件
+# filter the data again with the coordinator make sure the data point is in the Brooklyn range
 brooklyn_rats <- rats_sf[apply(st_within(rats_sf, brooklyn_geo, sparse = FALSE), 1, any), ]
 
 
-# ------------------ 绘制优化后的地图 ------------------
 ggplot() +
-  # 添加 OpenStreetMap 作为底图
+  # add OpenStreetMap as backgroud layer
   annotation_map_tile(type = "osm", zoom = 14) +  
   
-  # 1️⃣ **人口密度热力层**
+  # population layer
   geom_sf(data = brooklyn_geo, aes(fill = population), color = "black", size = 0.5, alpha = 0.6) +
   
-  # 设置颜色渐变（黄色 -> 红色，代表人口密度低 -> 高）
+  # set the color for the level of population
   scale_fill_viridis(option = "viridis", direction = -1, na.value = "grey80") +
 
-  # 2️⃣ **餐厅位置（蓝色点）**
-  #geom_sf(data = brooklyn_restaurants, aes(color = "Restaurants", shape = "Restaurants"), size = 1.2, alpha = 1) +
-  
-  # 3️⃣ **2017年7月的老鼠目击事件（红色点）**
+  # rat sighting layer
   geom_sf(data = brooklyn_rats,aes(color = "Rat Sightings", shape = "Rat Sightings"), size = 1.2, alpha = 0.6) +
   
   scale_color_manual(name = "Legend", values = c("Restaurants" = "blue", "Rat Sightings" = "blue")) +
   scale_shape_manual(name = "Legend", values = c("Restaurants" = 17, "Rat Sightings" = 16)) +
 
-  # 设置地图样式，优化 grid
+  # add the title and label and reference
   labs(title = "More People, More Rats? Mapping Brooklyn’s Population & Infestation Hotspots",
-       subtitle = "Exploring the relationship between urban population density and rodent activity in Brooklyn's during Summer" ,
-       fill = "Population Density",
+       subtitle = "Exploring the relationship between urban population and Rat activity in Brooklyn's during Summer" ,
+       fill = "Population",
        caption = 
        "
 Date Range:  2017
@@ -625,13 +598,13 @@ Data Source: https://www.kaggle.com/datasets/new-york-city/nyc-rat-sightings/dat
        x = "Longitude", y = "Latitude") +
   theme_minimal() +
   theme(
-    # 让 grid 线条显示在底图之上 
+    # make sure the grid is on the top layer
     panel.ontop = TRUE,  
     
-    # 透明背景，防止底图被覆盖
+    # transplate the color make sure the background map is visible
     panel.background = element_rect(fill = NA),  
 
-    # 调整网格线颜色和大小
+    # theme
     panel.grid.major = element_line(color = "gray30",linetype = 'dashed', size = 0.2),  
     panel.grid.minor = element_line(color = "gray30",linetype = 'dashed', size = 0.2) ,
     plot.title = element_text(hjust = 0, size = 20, face = "bold", family = "serif"),
@@ -647,7 +620,6 @@ Data Source: https://www.kaggle.com/datasets/new-york-city/nyc-rat-sightings/dat
     panel.spacing = unit(1.3, "lines")
   )
 
-# 保存 ggplot 为高分辨率图片
 ggsave("output_vis/brooklyn_population_density_map.pdf", width = 15, height = 12, dpi = 600)
 ggsave("output_vis/brooklyn_population_density_map.png", width = 15, height = 12, dpi = 600)
 
